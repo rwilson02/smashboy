@@ -487,7 +487,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50716ed2e9b520a448e2346c203f2502, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  speed: 4
   jumpForce: 7.5
   you: {fileID: 1770248434}
   rb: {fileID: 1770248440}
@@ -495,6 +495,7 @@ MonoBehaviour:
   left: 97
   jump: 32
   run: 304
+  moveAxis: Horizontal
 --- !u!65 &1770248436
 BoxCollider:
   m_ObjectHideFlags: 0

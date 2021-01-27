@@ -7,7 +7,8 @@ public class MovementScript : MonoBehaviour
     public float speed, jumpForce;
     public GameObject you;
     public Rigidbody rb;
-    public KeyCode right, left, jump, run;
+    public KeyCode jump, run;
+    public string moveAxis = "Horizontal";
     private int jumpTimes = 2;
     
     void OnCollisionEnter()
@@ -18,6 +19,7 @@ public class MovementScript : MonoBehaviour
     void Move()
     {
         int dash;
+        float axis = Input.GetAxis(moveAxis);
         
         if (Input.GetKey(run))
         {
@@ -25,15 +27,7 @@ public class MovementScript : MonoBehaviour
         }
         else dash = 1;
 
-        if (Input.GetKey(right))
-        {
-            you.transform.Translate(new Vector3(speed * Time.deltaTime * dash, 0));
-        }
-
-        if (Input.GetKey(left))
-        {
-            you.transform.Translate(new Vector3(-speed * Time.deltaTime * dash, 0));
-        }
+        you.transform.Translate(new Vector3(axis * speed * Time.deltaTime * dash, 0));
 
         if (Input.GetKeyDown(jump) && jumpTimes > 0)
         {
