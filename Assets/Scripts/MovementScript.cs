@@ -12,9 +12,12 @@ public class MovementScript : MonoBehaviour
     public string moveAxis = "Horizontal";
     private int jumpTimes = 2;
     
-    void OnCollisionEnter()
+    void OnCollisionEnter(Collision col)
     {
-        jumpTimes = 2;
+        if(col.GetContact(0).thisCollider == legs && col.GetContact(0).otherCollider.CompareTag("ground"))
+        {
+            jumpTimes = 2;
+        }
     }
 
     void Move()
@@ -41,6 +44,8 @@ public class MovementScript : MonoBehaviour
             jumpTimes -= 1;
             Debug.Log(jumpTimes);
         }
+
+    
     }
 
     // Update is called once per frame
