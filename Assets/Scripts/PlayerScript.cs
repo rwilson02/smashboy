@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
-    public float speed, jumpForce;
-    public GameObject you;
+    public float speed, jumpForce, timer;
+    public int hp = 3, lives = 2, dispTime;
+    public GameObject you, checkpt;
     public Rigidbody rb;
     public Collider legs;
+    public Vector3 respawnPoint;
     string moveAxis = "Horizontal";
     int jumpTimes = 2; //haha nice double jump
+    public bool timed = true;
+
     
     void OnCollisionEnter(Collision col)
     {
@@ -49,9 +53,34 @@ public class PlayerScript : MonoBehaviour
     
     }
 
+    void Die() {
+        you.SetActive(false);
+        lives--;
+        timed = false;
+        checkpt.SendMessage("Dead");
+    }
+
+    void Back()
+    {
+        you.transform.position = respawnPoint;
+        rb.velocity = Vector3.zero;
+        hp = 3;
+        timed = true;
+    }
+
     // Update is called once per frame
     void Update()
     {
         Move();
+
+        if (hp == 0 || this.gameObject.transform.position.y < -20 || timer < 0) {
+            Die();
+        };
+
+        if (timed)
+        {
+            timer -= Time.deltaTime;
+            dispTime = Mathf.CeilToInt(timer);
+        }
     }
 }
