@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovementScript : MonoBehaviour
+public class PlayerScript : MonoBehaviour
 {
     public float speed, jumpForce;
     public GameObject you;
     public Rigidbody rb;
     public Collider legs;
-    public KeyCode jump, run;
-    public string moveAxis = "Horizontal";
-    private int jumpTimes = 2;
+    string moveAxis = "Horizontal";
+    int jumpTimes = 2; //haha nice double jump
     
     void OnCollisionEnter(Collision col)
     {
+        //checks to see if your feet hit the ground
         if(col.GetContact(0).thisCollider == legs && col.GetContact(0).otherCollider.CompareTag("ground"))
         {
             jumpTimes = 2;
@@ -25,18 +25,19 @@ public class MovementScript : MonoBehaviour
         int dash;
         float axis = Input.GetAxis(moveAxis);
         
-        if (Input.GetKey(run))
+        if (Input.GetButton("Fire3"))
         {
-            dash = 2;
+            dash = 2; //you run twice as fast as you walk
         }
         else dash = 1;
 
         you.transform.Translate(new Vector3(axis * speed * Time.deltaTime * dash, 0));
 
-        if (Input.GetKeyDown(jump) && jumpTimes > 0)
+        if (Input.GetButtonDown("Jump") && jumpTimes > 0) //if you can jump
         {
             if(rb.velocity.y < 0)
             {
+                //if you're falling, you stop to jump in the air again
                 rb.velocity = new Vector2(rb.velocity.x, 0);
             }
 
