@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
     public float speed, jumpForce, timer;
-    public int hp = 3, lives = 2, dispTime;
+    public int hp = 3, lives = 2, dispTime, score = 0;
     public GameObject you, checkpt;
     public Rigidbody rb;
     public Collider legs;
@@ -13,6 +13,8 @@ public class PlayerScript : MonoBehaviour
     string moveAxis = "Horizontal";
     int jumpTimes = 2; //haha nice double jump
     public bool timed = true;
+
+    public KeyCode debug;
 
     
     void OnCollisionEnter(Collision col)
@@ -81,6 +83,11 @@ public class PlayerScript : MonoBehaviour
         {
             timer -= Time.deltaTime;
             dispTime = Mathf.CeilToInt(timer);
+        }
+
+        if (Input.GetKeyDown(debug))
+        {
+            hp -= 1;
         }
     }
 }
