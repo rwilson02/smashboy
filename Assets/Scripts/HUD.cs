@@ -50,7 +50,7 @@ public class HUD : MonoBehaviour
     void Update()
     {
         timer.text = player.GetComponent<PlayerScript>().dispTime.ToString();
-        intScore = Mathf.Min(999999, player.GetComponent<PlayerScript>().score);
+        intScore = Mathf.Min(999999, PlayerScript.score);
         score.text = intScore.ToString("000000");
         HealthDeterminer(player.GetComponent<PlayerScript>().hp);
     }

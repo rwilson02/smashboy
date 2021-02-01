@@ -5,9 +5,9 @@ using UnityEngine;
 public class Respawn : MonoBehaviour
 {
     Vector3 comebackPoint;
-    float recTime, timer = 3;
+    float recTime, timer = 2;
     bool touched = false, dead = false;
-    public GameObject player;
+    public GameObject player, end;
     public float initTime; //initial time,
     public bool Spawn = false; //is this where the player starts the level?
 
@@ -57,12 +57,16 @@ public class Respawn : MonoBehaviour
 
         if(timer < 0)
         {
-            dead = false;
-            print("rise from your grave");
-            player.SetActive(true);
-            player.SendMessage("Back");
-            timer = 3;
-            player.GetComponent<PlayerScript>().timer = recTime;
+            if (player.GetComponent<PlayerScript>().lives > 0)
+            {
+                dead = false;
+                print("rise from your grave");
+                player.SetActive(true);
+                player.SendMessage("Back");
+                timer = 2;
+                player.GetComponent<PlayerScript>().timer = recTime;
+            }
+            else end.SendMessage("GameOver");
         }
     }
 }

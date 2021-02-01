@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
     public float speed, jumpForce, timer;
-    public int hp = 3, lives = 2, dispTime, score = 0;
+    public int hp = 3, lives = 3, dispTime;
+    public static int score = 0;
     public GameObject you, checkpt;
     public Rigidbody rb;
     public Collider legs;
@@ -75,7 +76,12 @@ public class PlayerScript : MonoBehaviour
     {
         Move();
 
-        if (hp == 0 || this.gameObject.transform.position.y < -20 || timer < 0) {
+        if(this.gameObject.transform.position.y < -20)
+        {
+            hp = 0;
+        }
+
+        if (hp == 0 || timer < 0) {
             Die();
         };
 
