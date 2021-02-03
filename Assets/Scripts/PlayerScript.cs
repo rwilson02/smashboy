@@ -22,12 +22,13 @@ public class PlayerScript : MonoBehaviour
     private void Start()
     {
         painx = pain.transform.localPosition.x;
+        score = 0;
     }
 
     void OnCollisionEnter(Collision col)
     {
         //checks to see if your feet hit the ground
-        if(col.GetContact(0).thisCollider == legs && col.GetContact(0).otherCollider.CompareTag("ground"))
+        if(col.GetContact(0).thisCollider == legs)
         {
             jumpTimes = 2;
             anim.SetInteger("jumped", jumpTimes);

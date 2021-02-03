@@ -7,7 +7,7 @@ public class EnemyScript : MonoBehaviour
     public bool hurts = true;
     public float moveSpeed;
     public int hp = 1;
-    public GameObject you;
+    public GameObject you, anim;
     public Rigidbody rb;
     bool flip = false;
     GameObject player;
@@ -33,11 +33,16 @@ public class EnemyScript : MonoBehaviour
     {
         if (!collision.GetContact(0).otherCollider.CompareTag("Player"))
         {
-            if (flip)
+            if (flip && moveSpeed > 0)
             {
                 flip = false;
+                anim.GetComponent<SpriteRenderer>().flipX = true;
             }
-            else flip = true;
+            else { 
+                flip = true;
+                anim.GetComponent<SpriteRenderer>().flipX = false;
+            }
+
         } else if (hurts)
         {
             collision.gameObject.SendMessage("Hurt");
@@ -46,10 +51,13 @@ public class EnemyScript : MonoBehaviour
 
     private void Update()
     {
-        if (flip)
+        if (moveSpeed > 0)
         {
-            you.transform.Translate(new Vector3((-moveSpeed * Time.deltaTime), 0));
+            if (flip)
+            {
+                you.transform.Translate(new Vector3((-moveSpeed * Time.deltaTime), 0));
+            }
+            else you.transform.Translate(new Vector3((moveSpeed * Time.deltaTime), 0));
         }
-        else you.transform.Translate(new Vector3((moveSpeed * Time.deltaTime), 0));
     }
 }

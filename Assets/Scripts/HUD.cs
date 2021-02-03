@@ -6,8 +6,7 @@ using UnityEngine.UI;
 public class HUD : MonoBehaviour
 {
     public GameObject player;
-    public Text timer;
-    public Text score;
+    public Text timer, score, lives;
     public Image hp1, hp2, hp3;
     int intScore;
     Color color;
@@ -52,6 +51,7 @@ public class HUD : MonoBehaviour
         timer.text = player.GetComponent<PlayerScript>().dispTime.ToString();
         intScore = Mathf.Min(999999, PlayerScript.score);
         score.text = intScore.ToString("000000");
+        lives.text = "x " + player.GetComponent<PlayerScript>().lives.ToString();
         HealthDeterminer(player.GetComponent<PlayerScript>().hp);
     }
 }

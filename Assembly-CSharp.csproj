@@ -68,6 +68,8 @@
     <Compile Include="Assets\Scripts\FollowME.cs" />
     <Compile Include="Assets\Scripts\KILL.cs" />
     <Compile Include="Assets\Scripts\outtaHere.cs" />
+    <Compile Include="Assets\Scripts\ground.cs" />
+    <Compile Include="Assets\Scripts\DestScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
