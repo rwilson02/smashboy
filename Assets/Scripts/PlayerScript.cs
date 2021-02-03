@@ -7,15 +7,17 @@ public class PlayerScript : MonoBehaviour
     public float speed, jumpForce, timer;
     public int hp = 3, lives = 3, dispTime;
     public static int score = 0;
-    public GameObject you, checkpt;
+    public GameObject you, checkpt, pain;
     public Rigidbody rb;
     public Collider legs;
     public Vector3 respawnPoint;
+    public AudioSource jump, hurt, superjump;
+    public Animator anim;
     string moveAxis = "Horizontal";
     int jumpTimes = 2; //haha nice double jump
     public bool timed = true;
 
-    public KeyCode debug;
+    public KeyCode debug, swing;
 
     
     void OnCollisionEnter(Collision col)
@@ -24,6 +26,7 @@ public class PlayerScript : MonoBehaviour
         if(col.GetContact(0).thisCollider == legs && col.GetContact(0).otherCollider.CompareTag("ground"))
         {
             jumpTimes = 2;
+            anim.SetInteger("jumped", jumpTimes);
         }
     }
 
@@ -31,6 +34,14 @@ public class PlayerScript : MonoBehaviour
     {
         int dash;
         float axis = Input.GetAxis(moveAxis);
+
+        if (axis < 0)
+        {
+            anim.GetComponentInParent<SpriteRenderer>().flipX = true;
+        }
+        else anim.GetComponentInParent<SpriteRenderer>().flipX = false;
+
+        anim.SetFloat("speed", Mathf.Abs(axis));
         
         if (Input.GetButton("Fire3"))
         {
@@ -48,8 +59,15 @@ public class PlayerScript : MonoBehaviour
                 rb.velocity = new Vector2(rb.velocity.x, 0);
             }
 
-            rb.AddForce(new Vector2(0, jumpForce), ForceMode.Impulse); 
+            rb.AddForce(new Vector2(0, jumpForce), ForceMode.Impulse);
+            
+            if (rb.velocity.y > 4)
+            {
+                superjump.Play();
+            } else jump.Play();
+
             jumpTimes -= 1;
+            anim.SetInteger("jumped", jumpTimes);
             Debug.Log(jumpTimes);
         }
 
@@ -71,6 +89,15 @@ public class PlayerScript : MonoBehaviour
         timed = true;
     }
 
+    public void PainTrain()
+    {
+        if (pain.activeSelf)
+        {
+            pain.SetActive(false);
+        }
+        else pain.SetActive(true);
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -89,6 +116,11 @@ public class PlayerScript : MonoBehaviour
         {
             timer -= Time.deltaTime;
             dispTime = Mathf.CeilToInt(timer);
+        }
+
+        if (Input.GetKeyDown(swing) && !anim.GetBool("swung"))
+        {
+            anim.SetBool("swung", true);
         }
 
         if (Input.GetKeyDown(debug))
