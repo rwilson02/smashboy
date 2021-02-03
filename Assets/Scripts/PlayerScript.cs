@@ -11,7 +11,7 @@ public class PlayerScript : MonoBehaviour
     public Rigidbody rb;
     public Collider legs, body;
     public Vector3 respawnPoint;
-    public AudioSource jump, hurt, superjump, die;
+    public AudioSource jump, hurt, superjump, die, music;
     public Animator anim;
     string moveAxis = "Horizontal";
     int jumpTimes = 2; //haha nice double jump
@@ -41,11 +41,15 @@ public class PlayerScript : MonoBehaviour
 
         if (axis < 0)
         {
-            anim.GetComponentInParent<SpriteRenderer>().flipX = true;
             pain.transform.localPosition = new Vector3(-painx, pain.transform.localPosition.y);
+            anim.GetComponentInParent<SpriteRenderer>().flipX = true;
         }
-        else anim.GetComponentInParent<SpriteRenderer>().flipX = false;
-        pain.transform.localPosition = new Vector3(painx, pain.transform.localPosition.y);
+        else {
+            pain.transform.localPosition = new Vector3(painx, pain.transform.localPosition.y);
+            anim.GetComponentInParent<SpriteRenderer>().flipX = false; 
+        }
+
+        
 
         anim.SetFloat("speed", Mathf.Abs(axis));
         
@@ -146,7 +150,7 @@ public class PlayerScript : MonoBehaviour
 
         if (Input.GetKeyDown(debug))
         {
-            hp -= 1;
+            print(painx);
         }
     }
 }
