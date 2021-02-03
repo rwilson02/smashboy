@@ -6,6 +6,6 @@ public class eventMaker : MonoBehaviour
 {
     public void happen()
     {
-        SendMessageUpwards("PainTrain");
+        SendMessage("Pain");
     }
 }

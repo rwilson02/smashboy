@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
-    public float speed, jumpForce, timer;
+    public float speed, jumpForce, timer, painx;
     public int hp = 3, lives = 3, dispTime;
     public static int score = 0;
     public GameObject you, checkpt, pain;
     public Rigidbody rb;
-    public Collider legs;
+    public Collider legs, body;
     public Vector3 respawnPoint;
-    public AudioSource jump, hurt, superjump;
+    public AudioSource jump, hurt, superjump, die;
     public Animator anim;
     string moveAxis = "Horizontal";
     int jumpTimes = 2; //haha nice double jump
@@ -19,7 +19,11 @@ public class PlayerScript : MonoBehaviour
 
     public KeyCode debug, swing;
 
-    
+    private void Start()
+    {
+        painx = pain.transform.localPosition.x;
+    }
+
     void OnCollisionEnter(Collision col)
     {
         //checks to see if your feet hit the ground
@@ -38,8 +42,10 @@ public class PlayerScript : MonoBehaviour
         if (axis < 0)
         {
             anim.GetComponentInParent<SpriteRenderer>().flipX = true;
+            pain.transform.localPosition = new Vector3(-painx, pain.transform.localPosition.y);
         }
         else anim.GetComponentInParent<SpriteRenderer>().flipX = false;
+        pain.transform.localPosition = new Vector3(painx, pain.transform.localPosition.y);
 
         anim.SetFloat("speed", Mathf.Abs(axis));
         
@@ -74,6 +80,13 @@ public class PlayerScript : MonoBehaviour
     
     }
 
+    void Hurt()
+    {
+        hurt.Play();
+        hp -= 1;
+        StartCoroutine(Invuln());
+    }
+
     void Die() {
         you.SetActive(false);
         lives--;
@@ -89,13 +102,21 @@ public class PlayerScript : MonoBehaviour
         timed = true;
     }
 
-    public void PainTrain()
+    void Points(int amt)
     {
-        if (pain.activeSelf)
-        {
-            pain.SetActive(false);
-        }
-        else pain.SetActive(true);
+        score += amt;
+    }
+
+    void Killed()
+    {
+        die.Play();
+    }
+
+    IEnumerator Invuln()
+    {
+        body.enabled = false;
+        yield return new WaitForSeconds(1.25f);
+        body.enabled = true;
     }
 
     // Update is called once per frame

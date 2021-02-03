@@ -64,6 +64,9 @@
     <Compile Include="Assets\Scripts\HUD.cs" />
     <Compile Include="Assets\done.cs" />
     <Compile Include="Assets\eventMaker.cs" />
+    <Compile Include="Assets\Scripts\EnemyScript.cs" />
+    <Compile Include="Assets\Scripts\FollowME.cs" />
+    <Compile Include="Assets\KILL.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
